@@ -7,11 +7,12 @@ export const getAllNotes = async (req, res) => {
   const limit = Math.max(1, parseInt(perPage));
   const skip = (Math.max(1, parseInt(page)) - 1) * limit;
 
-  const notesQuery = Note.find({ userId: req.user._id })
+  const notesQuery = Note.find()
+    .where('userId')
+    .equals(req.user._id)
     .skip(skip)
     .limit(limit);
-  const countQuery = Note.countDocuments();
-
+  const countQuery = Note.countDocuments().where('userId').equals(req.user._id);
   if (tag) {
     notesQuery.where('tag').equals(tag);
     countQuery.where('tag').equals(tag);
@@ -40,7 +41,7 @@ export const getAllNotes = async (req, res) => {
 
 export const getNoteById = async (req, res, next) => {
   const { noteId } = req.params;
-  const note = await Note.findById({ _id: noteId, userId: req.user._id });
+  const note = await Note.findOne({ _id: noteId, userId: req.user._id });
 
   if (!note) {
     next(createHttpError(404, 'Note not found'));

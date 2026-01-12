@@ -12,7 +12,7 @@ export const registerUser = async (req, res, next) => {
     return next(createHttpError(400, 'Email in use'));
   }
 
-  const hashedPassword = await bcrypt.hash(password, 8);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = await User.create({
     email,
