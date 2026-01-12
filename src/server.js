@@ -6,8 +6,8 @@ import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
-import noteRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import noteRoutes from './routes/notesRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -19,7 +19,6 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use(authRoutes);
-
 app.use(noteRoutes);
 
 app.use(notFoundHandler);
