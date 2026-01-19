@@ -17,6 +17,11 @@ const userSchema = new Schema(
       required: true,
       minlength: 8,
     },
+    avatar: {
+      type: String,
+      require: false,
+      default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
+    },
   },
   {
     timestamps: true,
@@ -25,7 +30,7 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('save', function (next) {
-  if (!this.username) {
+  if (this.isNew || this.isModified('email')) {
     this.username = this.email;
   }
   next();
