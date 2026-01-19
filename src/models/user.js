@@ -19,7 +19,7 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      require: false,
+      required: false,
       default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
     },
   },
@@ -30,7 +30,7 @@ const userSchema = new Schema(
 );
 
 userSchema.pre('save', function (next) {
-  if (this.isNew || this.isModified('email')) {
+  if (!this.username) {
     this.username = this.email;
   }
   next();
